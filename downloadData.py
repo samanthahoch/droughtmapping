@@ -1,12 +1,13 @@
 
 import os, tempfile
+import shutil
+
+import json
 from urllib import request
 from datetime import date
 from datetime import timedelta
-
 from osgeo import gdal
 import numpy as np
-
 import arcpy
 
 today = date.today().strftime("%Y%m%d")
@@ -20,14 +21,14 @@ os.mkdir(write_folder)
 arcpy.management.CreateFileGDB(write_folder, "Drought.gdb")
 arcpy.env.workspace = os.path.join(write_folder, "Drought.gdb")
 
-from shutil import copyfile
 blank_map = "C:/Users/samihoch/BlankMap/BlankMap.aprx"
-copyfile(blank_map, write_folder + "/DroughtMap.aprx")
+shutil.copyfile(blank_map, write_folder + "/DroughtMap.aprx")
 
 write_filename = write_folder + "/Drought.gdb/most_recent.geojson"
 response = request.urlretrieve(url, write_filename)
 
-import json
+print("Downloading data from noaa")
+
 json_file = open(write_filename)
 data_raw = json.load(json_file)
 
@@ -41,6 +42,8 @@ arcpy.management.CreateFileGDB(r'C:\Temp', 'Live.gdb')
 arcpy.env.workspace = os.path.join(r'C:\Temp', 'Live.gdb')
 data_areas = dict(type=data_raw['type'], features=[])
 
+print("Reading json data")
+
 for feat in data_raw['features']:
     data_areas['features'].append(feat)
 
@@ -50,7 +53,7 @@ areas_json_path = os.path.join(r'C:\Temp', 'polygons.json')
 with open(areas_json_path, 'w') as poly_json_file:
     json.dump(data_areas, poly_json_file, indent=4)
 
-print("json file saved to: ", areas_json_path)
+print("json file saved to: ", write_folder + "/Drought.gdb/polygons.json")
 
 
 
