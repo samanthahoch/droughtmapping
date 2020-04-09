@@ -4,9 +4,9 @@ To use python to create a map of drought regions in the U.S. follow the below di
 
 ## Downloading the Data
 
-Run the script downloadData.py using the python command window. Note some of the built in file paths may need to be adjusted. 
+Run the script downloadData.py using the python command window. *Note: some of the built in file paths may need to be adjusted.*
 
-`python "path-to/downloadData.py`
+`python "path-to/downloadData.py"`
 
 This will download today's data from [NOAA]("https://www1.ncdc.noaa.gov/pub/data/nidis/geojson/us/soil/SManom_current.geojson") and create a folder for today's map.
 
