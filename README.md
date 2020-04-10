@@ -18,3 +18,7 @@ The previous script created a map document in the folder for today's data. Open 
 
 Add the drought data to the map using loadDroughtData.py. Use a text editor to open the script and copy everything. Paste into the python console in ArcGIS Pro and run.
 
+## Make your Own Additions
+
+The basic soil moisture data has been added to the map! Now feel free to add whatever data you need to make the map more informative or update the layout to make a better visual.
+

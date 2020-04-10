@@ -3,13 +3,13 @@
   "version" : "2.4.0",
   "build" : 19948,
   "layers" : [
-    "CIMPATH=map/drought_split.xml"
+    "CIMPATH=map/drought_split2.xml"
   ],
   "layerDefinitions" : [
     {
       "type" : "CIMFeatureLayer",
       "name" : "drought_split",
-      "uRI" : "CIMPATH=map/drought_split.xml",
+      "uRI" : "CIMPATH=map/drought_split2.xml",
       "sourceModifiedTime" : {
         "type" : "TimeInstant",
         "start" : 978307200000
@@ -913,7 +913,7 @@
             0.125
           ]
         },
-        "field" : "DoubleVal",
+        "field" : "SoilValue",
         "minimumBreak" : -9,
         "numberFormat" : {
           "type" : "CIMNumericFormat",
@@ -924,7 +924,7 @@
           "zeroPad" : true
         },
         "showInAscendingOrder" : true,
-        "heading" : "DoubleVal",
+        "heading" : "SoilValue",
         "sampleSize" : 10000,
         "defaultSymbolPatch" : "Default",
         "defaultSymbol" : {

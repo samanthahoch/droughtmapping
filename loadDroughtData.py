@@ -3,23 +3,26 @@ import shutil
 import os, tempfile
 from datetime import date
 
+# create variables for today's date, write folder, and geoDatabase
 today = date.today().strftime("%Y%m%d")
 write_folder = "C:/Users/samihoch/" + today
-
 geoDatabase = write_folder + r"/Drought.gdb"
 
+# set the map that everything will be done on to the current open map
 aprx = arcpy.mp.ArcGISProject("CURRENT")
 aprx.defaultGeodatabase = geoDatabase
 
+# add the json data to the map
 print("Adding json data to map")
-
 areas_json_path = os.path.join(r'C:\Temp', 'polygons.json')
 
 arcpy.conversion.JSONToFeatures(r"C:\Temp\polygons.json",
  geoDatabase + r"\drought_areas", "POLYGON")
 
+# delete the temp folder
 shutil.rmtree('C:\Temp')
 
+# clean up the drought data
 print("Preparing drought map features")
 
 arcpy.conversion.FeatureClassToFeatureClass("drought_areas",
@@ -31,6 +34,7 @@ arcpy.management.MultipartToSinglepart("drought_areas_save",
 
 aprx.save()
 
+# apply symbology from a previously save layer
 print("Applying symbology")
 
 m = aprx.listMaps('Map')[0]
@@ -38,15 +42,18 @@ m = aprx.listMaps('Map')[0]
 polygons_lyr = m.listLayers('drought_split')[0]
 polygons_sym = polygons_lyr.symbology
 
+# add a new field to house the soil value as a double instead of a text value
 arcpy.AddField_management("drought_split", "SoilValue", "DOUBLE")
 arcpy.management.CalculateField("drought_split", "SoilValue", "!VALUE!", "PYTHON3", '')
 
 arcpy.management.ApplySymbologyFromLayer(r"C:\Users\samihoch\drought_sym.lyrx", 
 "drought_split", "VALUE_FIELD SoilValue SoilValue", "DEFAULT")
 
+# rename to appropiate names
 l = m.listLayers("drought_split")[0]
 l.name = "Soil Moisture"
 
+# remove all layers that are no longer needed
 to_remove = ["drought_areas", "drought_areas_save", "drought_split"]
 
 for i in to_remove:
